@@ -1,4 +1,4 @@
-restaurant_data = {
+var restaurant_data = {
     restaurant_list: [{
         name: "Sukhothai",
         phone: "(647) 351-4612",

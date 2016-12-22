@@ -2,7 +2,11 @@
 
 # About
 
-Halal Toronto is a directory of the top 5 halal eateries in Toronto
+   Halal Toronto is a directory of the top 5 halal eateries in Toronto
+
+   Udacity Project
+
+   Submitted by: Mizanur Chowdhury
 
 # How To Run
 
