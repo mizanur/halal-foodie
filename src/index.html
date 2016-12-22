@@ -7,26 +7,55 @@
 
 <div>
   <!-- maps -->
-  <section id="map">
+  <section id="map"></section>
+
+
+
+
+  <section id="list" >
+    <!-- list -->
+    <h1 class="header">Halal Toronto</h1>
     
+    <div>
+      <input type="text" class="form-control" placeholder="Find restaurants ..." data-bind="textInput: text_filter">
+    </div>
+    
+    <hr>
+    
+    <ul data-bind="foreach:list_of_restaurants">
+      <a class="business-link" href="#" data-bind="click: $parent.show_popup_tip">
+        <li data-bind="visible: show">
+          <h2 class="title" data-bind="text: name"></h2>      
+          <hr style="border-top: dotted 1px;">      
+        </li>
+      </a>
+    </ul>
+
   </section>
 
-  <!-- list -->
-  <section></section>  
 </div>
+
 
 
 <!-- vendor includes -->
 <script type="text/javascript" src="vendor/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="vendor/knockout-3.4.1.js"></script>
 <script type="text/javascript" src="vendor/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="vendor/bootstrap-3.3.7-dist/css/bootstrap.css"></script>
+<script type="text/javascript" src="vendor/oauth-signature.min.js"></script>
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap-3.3.7-dist/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="vendor/bootstrap-3.3.7-dist/css/bootstrap-theme.css">
 
-<!-- custom includes -->
-<script type="text/javascript" src="custom/js/"></script>
-<script type="text/javascript" src="custom/js/"></script>
+
+<!-- custom includes
+<script type="text/javascript" src="custom/js/"></script> -->
+<script type="text/javascript" src="custom/js/model.js"></script>
+<script type="text/javascript" src="custom/js/google-maps.js"></script>
+<script type="text/javascript" src="custom/js/yelp-connect.js"></script>
+<script type="text/javascript" src="custom/js/app.js"></script>
+
 <link rel="stylesheet" type="text/css" href="custom/css/styles.css">
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDWXSRCgilbnVJ7s4UyilZrbymB2tO4TDw&callback=initMap" async defer></script>
+
 
 </body>
 </html>

@@ -1,0 +1,47 @@
+#map {
+  height: 100%;
+  widows: 80%;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+  color:white;
+}
+
+#list{
+  position: fixed;
+  top:0;
+  background:black;
+  height:100%;
+  opacity:0.8;
+  padding:20px;
+}
+
+.header{
+  font-weight: bold;
+}
+
+.header, .title{
+  text-transform:uppercase;
+  font-size:15px;
+}
+
+ul{
+  list-style-type: none;
+  padding:0;
+}
+
+.business-link{
+  color:white;
+}
+
+.info_tip{
+  color:black;
+}
+
+.error {
+  color:red;
+}

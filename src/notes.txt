@@ -4,3 +4,13 @@ Google API Key: AIzaSyDWXSRCgilbnVJ7s4UyilZrbymB2tO4TDw
 Yelp:
 App Secret: Qzp6cK4ym6LKWkalSBmtzZPbK3WaNTbLQGQaeOO6r1eZVzUPyIW11vFJsR4OMMvt
 App ID: EWezCoN6GWxdbLOh_Cp9_w
+
+
+
+PI v2.0
+Consumer Key  iHOJjk8TAFaVl7b9pELLZA
+Consumer Secret f8429e-TVrSUoi2LeX6xPFxwpls
+Token yV9YxFZmEH2XTrB7jDEuC1fCSkGij_xu
+Token Secret  bQUfqovIbwT-HzNa_fGbGTOfz_A
+Generate new API v2.0 token/secret
+
