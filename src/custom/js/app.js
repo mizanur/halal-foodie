@@ -4,68 +4,44 @@
 var BusinessConstructor = function(data) {
     var self = this;
 
-    this.name = ko.observable(data.name);
-    this.phone = ko.observable(data.phone);
-    this.address = ko.observable(data.address);
-    this.url = ko.observable(data.url);
-    this.twitter_id = ko.observable(data.twitter_id);
-    this.yelp_id = ko.observable(data.yelp_id);
-    this.longitude = ko.observable(data.location.longitude);
-    this.latitude = ko.observable(data.location.latitude);
+    this.name = data.name;
+    this.phone = data.phone;
+    this.address = data.address;
+    this.url = data.url;
+    this.twitter_id = data.twitter_id;
+    this.yelp_id = data.yelp_id;
+    this.longitude = data.location.longitude;
+    this.latitude = data.location.latitude;
     this.show = ko.observable(true);
 
     var business_location = {
-        lat: this.latitude(),
-        lng: this.longitude()
+        lat: this.latitude,
+        lng: this.longitude
     };
 
     console.log(business_location);
 
-    var marker_config = {
+    var markerConfig = {
         map: map,
-        title: self.name(),
+        title: self.name,
         position: business_location,
         animation: google.maps.Animation.DROP
     };
 
     this.location_pin = ko.observable(
-        new google.maps.Marker(marker_config)
+        new google.maps.Marker(markerConfig)
     );
 
+    this.infoWindow ;
 
     // Initialize the map info_tip that will display the Yelp data
     this.info_tip = ko.observable(
-        new google.maps.InfoWindow({
-            content: '<div class="info_tip">' +
-                '<h2>' + self.name() + '</h2>' +
-                '<ul>' +
-                '<li>' +
-                'Yelp Reviews: ' +
-                '<img class="reviews" src=" " id="' + self.yelp_id() + '">' +
-                '<span id="' + self.yelp_id() + '-error"></span>' +
-                '</li>' +
-                '<li>' +
-                '<span class="glyphicon glyphicon-phone"></span> ' +
-                self.phone() +
-                '</li>' +
-                '<li>' +
-                ' <span class="glyphicon glyphicon-map-marker"></span> ' +
-                self.address() +
-                '</li>' +
-                '<li>' +
-                '<span class="glyphicon glyphicon-globe"></span> ' +
-                self.url() +
-                '</li>' +
-                '<li>' + self.twitter_id() + '</li>' +
-                '</ul>' +
-                '</div>'
-
-        })
+        infoWindow = new google.maps.InfoWindow()
     );
 };
 
 
-var view_model = function() {
+var ViewModel = function() {
     var self = this;
 
     this.list_of_restaurants = ko.observableArray([]);
@@ -104,7 +80,7 @@ var view_model = function() {
         self.show_restaurant_info(restaurant);
     };
 
-    this.text_filter = ko.observable("");
+    this.text_filter = ko.observable('');
 
     /*
      * usefule: http://knockoutjs.com/documentation/rateLimit-observable.html
@@ -121,7 +97,7 @@ var view_model = function() {
      */
     this.filter = function() {
         self.list_of_restaurants().forEach(function(element) {
-            var search_name = element.name().toLowerCase();
+            var search_name = element.name.toLowerCase();
             var ft = self.text_filter().toLowerCase();
 
             if (search_name.search(ft) !== -1) {
@@ -154,5 +130,5 @@ var get_restaurant_info = function(restaurant) {
 
     restaurant.info_tip().open(map, restaurant.location_pin());
 
-    yelp_connect(restaurant);
+    yelpConnect(restaurant);
 };

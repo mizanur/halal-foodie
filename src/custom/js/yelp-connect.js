@@ -2,7 +2,7 @@
  * Thank you Mark Nguyen
  * src: https://discussions.udacity.com/t/im-having-trouble-getting-started-using-apis/13597/2
  */
-var yelp_connect = function(yelpBusinessId) {
+var yelpConnect = function(yelpBusinessId) {
 
     /**
      * Generates a random number and returns it as a string for OAuthentication
@@ -12,7 +12,8 @@ var yelp_connect = function(yelpBusinessId) {
         return (Math.floor(Math.random() * 1e12).toString());
     }
 
-    var yelp_url = 'https://api.yelp.com/v2/business/' + yelpBusinessId.yelp_id();
+    var yelp_url = 'https://api.yelp.com/v2/business/' + yelpBusinessId.yelp_id;
+    console.log(yelp_url);
     const YELP_API_KEY = "iHOJjk8TAFaVl7b9pELLZA";
     const YELP_API_KEY_SECRET = "f8429e-TVrSUoi2LeX6xPFxwpls";
     const YELP_API_TOKEN = "yV9YxFZmEH2XTrB7jDEuC1fCSkGij_xu";
@@ -33,24 +34,89 @@ var yelp_connect = function(yelpBusinessId) {
 
     // End OAuth signature generation
 
+
+    // Content
+    var populateContent = function(image, error) {
+        var content;
+        if (!error) {
+            return content = '<div class="info_tip">' +
+                '<h2>' + yelpBusinessId.name + '</h2>' +
+                '<ul>' +
+                '<li>' +
+                'Yelp Reviews: ' +
+                '<img class="reviews" src="' + image + '" id="' + yelpBusinessId.yelp_id + '">' +
+                '<span id="' + yelpBusinessId.yelp_id + '-error"></span>' +
+                '</li>' +
+                '<li>' +
+                '<span class="glyphicon glyphicon-phone"></span> ' +
+                yelpBusinessId.phone +
+                '</li>' +
+                '<li>' +
+                ' <span class="glyphicon glyphicon-map-marker"></span> ' +
+                yelpBusinessId.address +
+                '</li>' +
+                '<li>' +
+                '<span class="glyphicon glyphicon-globe"></span> ' +
+                yelpBusinessId.url +
+                '</li>' +
+                '<li>' + yelpBusinessId.twitter_id + '</li>' +
+                '</ul>' +
+                '</div>'
+        } else {
+            return content = '<div class="info_tip">' +
+                '<h2>' + yelpBusinessId.name + '</h2>' +
+                '<ul>' +
+                '<li>' +
+                'Yelp Reviews: ' +
+                '<span id="' + yelpBusinessId.yelp_id + '-error" class="error"> Could not find reviews!</span>' +
+                '</li>' +
+                '<li>' +
+                '<span class="glyphicon glyphicon-phone"></span> ' +
+                yelpBusinessId.phone +
+                '</li>' +
+                '<li>' +
+                ' <span class="glyphicon glyphicon-map-marker"></span> ' +
+                yelpBusinessId.address +
+                '</li>' +
+                '<li>' +
+                '<span class="glyphicon glyphicon-globe"></span> ' +
+                yelpBusinessId.url +
+                '</li>' +
+                '<li>' + yelpBusinessId.twitter_id + '</li>' +
+                '</ul>' +
+                '</div>'
+        }
+
+
+    }
+
+
+
+
     // Set Ajax request parameters
-    var request_config = {
+    var requestConfig = {
         url: yelp_url,
         data: oauth_param,
+        method: 'GET',
         cache: true, // Prevent jQuery from adding on a cache-buster parameter "_=23489489749837", thus invalidating the oauth-signature
         dataType: 'jsonp',
         success: function(response) {
             // Store data on success
-            var rating_img_url_small = response.rating_img_url_small;
-            $('#' + yelpBusinessId.yelp_id()).attr('src', response.rating_img_url_small);
+            var rating_img_url_small = response.rating_okimg_url_small;
+
+            if (typeof(rating_img_url_small) !== 'undefined') {
+                yelpBusinessId.info_tip().setContent(populateContent(rating_img_url_small, false))
+            } else {
+                yelpBusinessId.info_tip().setContent(populateContent(rating_img_url_small, true))
+            }
         },
         error: function(response) {
-            // Error
-            console.log(response);
-            $('#' + yelpBusinessId.yelp_id() + '-error').text('Unable to load reviews.').addClass("error");
+            yelpBusinessId.info_tip().setContent(populateContent(rating_img_url_small, true))
+
         }
     };
 
     // Send Ajax request
-    $.ajax(request_config);
+    $.ajax(requestConfig);
+
 };
