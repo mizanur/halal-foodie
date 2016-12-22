@@ -36,15 +36,21 @@ var yelpConnect = function(yelpBusinessId) {
 
 
     // Content
-    var populateContent = function(image, error) {
+    var populateContent = function(image_url, error) {
         var content;
-        if (!error) {
-            return content = '<div class="info_tip">' +
+        var error_content;
+        if (error) {
+          error_content = '<span id="' + yelpBusinessId.yelp_id + '-error" class="error"> Could not find reviews!</span>';          
+        } else {
+          error_content = '<img class="reviews" src="' + image_url + '" id="' + yelpBusinessId.yelp_id + '">';
+        }
+        
+        return content = '<div class="info_tip">' +
                 '<h2>' + yelpBusinessId.name + '</h2>' +
                 '<ul>' +
                 '<li>' +
                 'Yelp Reviews: ' +
-                '<img class="reviews" src="' + image + '" id="' + yelpBusinessId.yelp_id + '">' +
+                error_content +
                 '<span id="' + yelpBusinessId.yelp_id + '-error"></span>' +
                 '</li>' +
                 '<li>' +
@@ -61,33 +67,7 @@ var yelpConnect = function(yelpBusinessId) {
                 '</li>' +
                 '<li>' + yelpBusinessId.twitter_id + '</li>' +
                 '</ul>' +
-                '</div>'
-        } else {
-            return content = '<div class="info_tip">' +
-                '<h2>' + yelpBusinessId.name + '</h2>' +
-                '<ul>' +
-                '<li>' +
-                'Yelp Reviews: ' +
-                '<span id="' + yelpBusinessId.yelp_id + '-error" class="error"> Could not find reviews!</span>' +
-                '</li>' +
-                '<li>' +
-                '<span class="glyphicon glyphicon-phone"></span> ' +
-                yelpBusinessId.phone +
-                '</li>' +
-                '<li>' +
-                ' <span class="glyphicon glyphicon-map-marker"></span> ' +
-                yelpBusinessId.address +
-                '</li>' +
-                '<li>' +
-                '<span class="glyphicon glyphicon-globe"></span> ' +
-                yelpBusinessId.url +
-                '</li>' +
-                '<li>' + yelpBusinessId.twitter_id + '</li>' +
-                '</ul>' +
-                '</div>'
-        }
-
-
+                '</div>';
     }
 
 
@@ -101,8 +81,12 @@ var yelpConnect = function(yelpBusinessId) {
         cache: true, // Prevent jQuery from adding on a cache-buster parameter "_=23489489749837", thus invalidating the oauth-signature
         dataType: 'jsonp',
         success: function(response) {
+            console.log('success')
+
             // Store data on success
-            var rating_img_url_small = response.rating_okimg_url_small;
+            var rating_img_url_small = response.rating_img_url_small;
+
+            console.log('rating_img_url_small ' + rating_img_url_small)
 
             if (typeof(rating_img_url_small) !== 'undefined') {
                 yelpBusinessId.info_tip().setContent(populateContent(rating_img_url_small, false))
@@ -111,7 +95,8 @@ var yelpConnect = function(yelpBusinessId) {
             }
         },
         error: function(response) {
-            yelpBusinessId.info_tip().setContent(populateContent(rating_img_url_small, true))
+          console.log('fail')
+            yelpBusinessId.info_tip().setContent(populateContent("", true))
 
         }
     };
